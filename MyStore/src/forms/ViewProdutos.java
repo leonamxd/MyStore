@@ -63,57 +63,58 @@ public class ViewProdutos extends JFrame {
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(969, 412, -801, -399);
-		contentPane.add(scrollPane);
-		
-		tableProdutos = new JTable();
-		scrollPane.setViewportView(tableProdutos);
 		
 		Object[] column = {"ID", "Nome", "Tipo", "Valor", "Qtd."};
 		Object[] row = new Object[5];
 		model.setColumnIdentifiers(column);
-		tableProdutos.setModel(model);
-		buscarDados.BuscarProdutos(tableProdutos);
-		
-		JLabel lblProdutoNome = new JLabel("Nome do Produto:");
-		lblProdutoNome.setBounds(163, 441, 105, 19);
-		contentPane.add(lblProdutoNome);
+		contentPane.setLayout(null);
 		
 		JLabel lblProdutoDescricao = new JLabel("Descri\u00E7\u00E3o :");
-		lblProdutoDescricao.setBounds(163, 503, 67, 19);
+		lblProdutoDescricao.setBounds(91, 486, 53, 14);
 		contentPane.add(lblProdutoDescricao);
 		
 		JLabel lblProdutoValorVenda = new JLabel("Valor de Venda :");
-		lblProdutoValorVenda.setBounds(163, 624, 97, 14);
+		lblProdutoValorVenda.setBounds(91, 606, 79, 14);
 		contentPane.add(lblProdutoValorVenda);
 		
 		txtNomeProduto = new JTextField();
-		txtNomeProduto.setBounds(270, 440, 462, 20);
+		txtNomeProduto.setBounds(188, 420, 440, 20);
 		contentPane.add(txtNomeProduto);
 		txtNomeProduto.setColumns(10);
 		
 		JTextArea txtAreaDescricao = new JTextArea();
-		txtAreaDescricao.setBounds(270, 500, 462, 107);
+		txtAreaDescricao.setBounds(188, 481, 440, 106);
 		contentPane.add(txtAreaDescricao);
 		
 		JLabel lblProdutoTipo = new JLabel("Tipo do Produto :");
-		lblProdutoTipo.setBounds(163, 471, 105, 14);
+		lblProdutoTipo.setBounds(91, 448, 83, 14);
 		contentPane.add(lblProdutoTipo);
 		
 		txtTipoProduto = new JTextField();
-		txtTipoProduto.setBounds(270, 469, 462, 20);
+		txtTipoProduto.setBounds(188, 451, 440, 20);
 		contentPane.add(txtTipoProduto);
 		txtTipoProduto.setColumns(10);
 		
+		JLabel lblProdutoNome = new JLabel("Nome do Produto:");
+		lblProdutoNome.setBounds(91, 423, 87, 14);
+		contentPane.add(lblProdutoNome);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(91, 4, 883, 402);
+		contentPane.add(scrollPane);
+		
+		tableProdutos = new JTable();
+		scrollPane.setViewportView(tableProdutos);
+		tableProdutos.setModel(model);
+		buscarDados.BuscarProdutos(tableProdutos);
+		
 		txtValorVenda = new JTextField();
-		txtValorVenda.setBounds(270, 621, 150, 20);
+		txtValorVenda.setBounds(188, 603, 150, 20);
 		contentPane.add(txtValorVenda);
 		txtValorVenda.setColumns(10);
 		
 		JButton btnProdutoCadastrar = new JButton("Cadastrar Produto");
+		btnProdutoCadastrar.setBounds(741, 417, 175, 45);
 		btnProdutoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String valorVenda = txtValorVenda.getText().replace(",", ".");
@@ -131,18 +132,18 @@ public class ViewProdutos extends JFrame {
 				
 			}
 		});
-		btnProdutoCadastrar.setBounds(789, 439, 173, 50);
 		contentPane.add(btnProdutoCadastrar);
 		
 		JButton btnProdutoEditar = new JButton("Editar Produto");
-		btnProdutoEditar.setBounds(789, 501, 173, 50);
+		btnProdutoEditar.setBounds(741, 471, 175, 45);
 		contentPane.add(btnProdutoEditar);
 		
 		JButton btnProdutoDeletar = new JButton("Deletar Produto");
-		btnProdutoDeletar.setBounds(800, 612, 150, 38);
+		btnProdutoDeletar.setBounds(807, 602, 109, 23);
 		contentPane.add(btnProdutoDeletar);
 		
 		JButton btnProdutoVoltar = new JButton("Voltar");
+		btnProdutoVoltar.setBounds(10, 11, 71, 23);
 		btnProdutoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -150,7 +151,6 @@ public class ViewProdutos extends JFrame {
 				dispose();
 			}
 		});
-		btnProdutoVoltar.setBounds(10, 11, 105, 38);
 		contentPane.add(btnProdutoVoltar);
 	}
 }
