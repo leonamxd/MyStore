@@ -9,8 +9,8 @@ public class FabricaConexao {
 		
 		try {
 			final String url = "jdbc:mysql://localhost:3306/db_mystore";
-			final String usuario = "admin";
-			final String senha = "admin";
+			final String usuario = "root";
+			final String senha = "";
 			
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			
