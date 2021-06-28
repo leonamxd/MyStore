@@ -7,9 +7,9 @@ import jdbc.FabricaConexao;
 
 public class EditarDados {
 
-	public void editarDados(int _idProduto, String _nomeProduto, String _descricaoProduto, double _valorVenda) {
+	public void editarProdutos(int _idProduto, String _nomeProduto, String _descricaoProduto, String _tipoProduto, double _valorVenda) {
 
-		String sql = "UPDATE tb_produtos SET prd_nome = ?, prd_descricao_prod = ?, prd_valor_produto" + " WHERE id = ?";
+		String sql = "UPDATE tb_produtos SET prd_nome = ?, prd_descricao_prod = ?, prd_tipo_produto = ?, prd_valor_produto = ? WHERE id = ?";
 
 		Connection conexao = null;
 		PreparedStatement stmt = null;
@@ -24,10 +24,11 @@ public class EditarDados {
 			// ADICIONAR OS VALORES PARA ATUALIZAR
 			stmt.setString(1, _nomeProduto);
 			stmt.setString(2, _descricaoProduto);
-			stmt.setDouble(3, _valorVenda);
+			stmt.setString(3, _tipoProduto);
+			stmt.setDouble(4, _valorVenda);
 
 			// ID DO PRODUTO A SER ATUALIZADO
-			stmt.setInt(4, _idProduto);
+			stmt.setInt(5, _idProduto);
 
 			// EXECUTAR A QUERY
 			stmt.execute();

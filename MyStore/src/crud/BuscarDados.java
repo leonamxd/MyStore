@@ -1,7 +1,6 @@
 package crud;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -11,6 +10,34 @@ import javax.swing.table.DefaultTableModel;
 import jdbc.FabricaConexao;
 
 public class BuscarDados {
+	
+	// METODO PARA PEGAR STRING DA DESCRIÇÃO E MOSTRAR NA TABLE
+	public String BuscarTextArea(JTable _table) {
+		
+		// VARIAVEL QUE RECEBERÁ A STRING
+		String txtArea = "";
+		Connection conexao = null;
+		
+		// VARIAVEL PARA PEGAR O ID DA LINHA SELECIONADA
+		int row = _table.getSelectedRow();
+		// VARIAVEL PARA PEGAR O VALOR A PARTIR DO ID E DA COLUNA
+		int idCelula = Integer.parseInt(_table.getModel().getValueAt(row, 0).toString());
+		
+		// QUERY DO SQL
+		String sql = "SELECT prd_descricao_prod FROM tb_produtos WHERE id = " + idCelula;
+		
+		try {
+			conexao = FabricaConexao.abrirConexao();
+			Statement stmt = conexao.createStatement();
+			ResultSet rSet = stmt.executeQuery(sql);
+			while(rSet.next()) {
+				txtArea = rSet.getString("prd_descricao_prod");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return txtArea;
+	}
 
 	public void BuscarProdutos(JTable _table) {
 
@@ -18,7 +45,6 @@ public class BuscarDados {
 
 		Connection conexao = null;
 		Statement stmt = null;
-		// PreparedStatement blabla = null;
 		// CLASSE PARAR RECUPERAR DADOS DO BANCO
 		ResultSet rSet = null;
 

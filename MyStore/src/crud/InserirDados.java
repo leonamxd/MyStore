@@ -1,5 +1,6 @@
 package crud;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -9,7 +10,7 @@ import jdbc.FabricaConexao;
 
 public class InserirDados {
 	public void inserirProdutos(String _nomeProduto, String _tipoProduto, String _descricaoProduto,
-			double _valorVenda) {
+			float _valorVenda) {
 
 		String sql = "INSERT INTO tb_produtos (prd_nome, prd_tipo_produto, prd_descricao_prod, prd_valor_produto) VALUES (?,?,?,?)";
 
@@ -28,7 +29,8 @@ public class InserirDados {
 			stmt.setString(1, _nomeProduto);
 			stmt.setString(2, _tipoProduto);
 			stmt.setString(3, _descricaoProduto);
-			stmt.setDouble(4, _valorVenda);
+			stmt.setFloat(4, _valorVenda);
+//			stmt.setDouble(4, _valorVenda);
 
 			// EXECUTAR A QUERY
 			stmt.execute();

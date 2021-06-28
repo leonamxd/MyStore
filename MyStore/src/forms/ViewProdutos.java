@@ -1,26 +1,28 @@
 package forms;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import crud.BuscarDados;
+import crud.DeletarDados;
+import crud.EditarDados;
 import crud.InserirDados;
-
-import java.awt.Color;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ViewProdutos extends JFrame {
 
@@ -39,6 +41,8 @@ public class ViewProdutos extends JFrame {
 	DefaultTableModel model = new DefaultTableModel();
 	InserirDados inserirDados = new InserirDados();
 	BuscarDados buscarDados = new BuscarDados();
+	DeletarDados deletarDados = new DeletarDados();
+	EditarDados editarDados = new EditarDados();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -68,6 +72,7 @@ public class ViewProdutos extends JFrame {
 		Object[] row = new Object[5];
 		model.setColumnIdentifiers(column);
 		contentPane.setLayout(null);
+		buscarDados.BuscarProdutos(tableProdutos);
 		
 		JLabel lblProdutoDescricao = new JLabel("Descri\u00E7\u00E3o :");
 		lblProdutoDescricao.setBounds(91, 486, 53, 14);
@@ -104,8 +109,19 @@ public class ViewProdutos extends JFrame {
 		contentPane.add(scrollPane);
 		
 		tableProdutos = new JTable();
+		tableProdutos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tableProdutos.getSelectedRow();
+				txtNomeProduto.setText(tableProdutos.getModel().getValueAt(row, 1).toString());
+				txtTipoProduto.setText(tableProdutos.getModel().getValueAt(row, 2).toString());
+				txtAreaDescricao.setText(buscarDados.BuscarTextArea(tableProdutos));
+				txtValorVenda.setText(tableProdutos.getModel().getValueAt(row, 3).toString());
+			}
+		});
 		scrollPane.setViewportView(tableProdutos);
 		tableProdutos.setModel(model);
+		tableProdutos.setDefaultEditor(Object.class, null);
 		buscarDados.BuscarProdutos(tableProdutos);
 		
 		txtValorVenda = new JTextField();
@@ -118,7 +134,7 @@ public class ViewProdutos extends JFrame {
 		btnProdutoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String valorVenda = txtValorVenda.getText().replace(",", ".");
-				inserirDados.inserirProdutos(txtNomeProduto.getText(), txtTipoProduto.getText(), txtAreaDescricao.getText(), Double.parseDouble(valorVenda));
+				inserirDados.inserirProdutos(txtNomeProduto.getText(), txtTipoProduto.getText(), txtAreaDescricao.getText(), Float.parseFloat(valorVenda));
 				row[1] = txtNomeProduto.getText();
 				row[2] = txtTipoProduto.getText();
 				row[3] = txtValorVenda.getText();
@@ -135,11 +151,27 @@ public class ViewProdutos extends JFrame {
 		contentPane.add(btnProdutoCadastrar);
 		
 		JButton btnProdutoEditar = new JButton("Editar Produto");
+		btnProdutoEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int row = tableProdutos.getSelectedRow();
+				int idCelula = Integer.parseInt(tableProdutos.getModel().getValueAt(row, 0).toString());
+				editarDados.editarProdutos(idCelula, txtNomeProduto.getText(), txtAreaDescricao.getText(), txtTipoProduto.getText(), Double.parseDouble(txtValorVenda.getText()));
+				buscarDados.BuscarProdutos(tableProdutos);
+			}
+		});
 		btnProdutoEditar.setBounds(741, 471, 175, 45);
 		contentPane.add(btnProdutoEditar);
 		
 		JButton btnProdutoDeletar = new JButton("Deletar Produto");
-		btnProdutoDeletar.setBounds(807, 602, 109, 23);
+		btnProdutoDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int remove = tableProdutos.getSelectedRow();
+				deletarDados.deletarProdutos(tableProdutos);
+				model.removeRow(remove);
+			}
+		});
+		btnProdutoDeletar.setBounds(741, 602, 175, 23);
 		contentPane.add(btnProdutoDeletar);
 		
 		JButton btnProdutoVoltar = new JButton("Voltar");
