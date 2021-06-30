@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,6 +39,30 @@ public class BuscarDados {
 			System.out.println(e);
 		}
 		return txtArea;
+	}
+	
+	public void PreencherProdutosComboBox(JComboBox<String> _comboBox) {
+		
+		String sql = "SELECT prd_nome FROM tb_produtos";
+		
+		Connection conexao = null;
+		Statement stmt = null;
+		ResultSet rSet = null;
+		
+		try {
+			conexao = FabricaConexao.abrirConexao();
+			stmt = conexao.createStatement();
+			rSet = stmt.executeQuery(sql);
+			
+			while(rSet.next()) {
+				String comboBoxProduto = rSet.getString("prd_nome");
+				_comboBox.addItem(rSet.getString("prd_nome"));
+//				System.out.println(rSet.getString("prd_nome"));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 	}
 
 	public void BuscarProdutos(JTable _table) {

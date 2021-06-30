@@ -37,7 +37,7 @@ public class ViewProdutos extends JFrame {
 	 */
 	
 	//GLOBAIS
-	ViewPrincipal vPr = new ViewPrincipal();
+	ViewPrincipal vPrin = new ViewPrincipal();
 	DefaultTableModel model = new DefaultTableModel();
 	InserirDados inserirDados = new InserirDados();
 	BuscarDados buscarDados = new BuscarDados();
@@ -134,7 +134,7 @@ public class ViewProdutos extends JFrame {
 		btnProdutoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String valorVenda = txtValorVenda.getText().replace(",", ".");
-				inserirDados.inserirProdutos(txtNomeProduto.getText(), txtTipoProduto.getText(), txtAreaDescricao.getText(), Float.parseFloat(valorVenda));
+				inserirDados.inserirProdutos(txtNomeProduto.getText(), txtTipoProduto.getText(), txtAreaDescricao.getText(), Double.parseDouble(valorVenda));
 				row[1] = txtNomeProduto.getText();
 				row[2] = txtTipoProduto.getText();
 				row[3] = txtValorVenda.getText();
@@ -179,7 +179,7 @@ public class ViewProdutos extends JFrame {
 		btnProdutoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				vPr.setVisible(true);
+				vPrin.setVisible(true);
 				dispose();
 			}
 		});

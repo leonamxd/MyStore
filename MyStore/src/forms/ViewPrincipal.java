@@ -42,7 +42,7 @@ public class ViewPrincipal extends JFrame {
 	public ViewPrincipal() {
 		setTitle("MyStore");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 300, 350);
+		setBounds(100, 100, 360, 510);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -56,22 +56,33 @@ public class ViewPrincipal extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnProdutos.setBounds(42, 29, 200, 40);
+		btnProdutos.setBounds(72, 45, 200, 40);
 		contentPane.add(btnProdutos);
 		
 		JButton btnMenuClientes = new JButton("Clientes");
 		btnMenuClientes.setEnabled(false);
-		btnMenuClientes.setBounds(42, 99, 200, 40);
+		btnMenuClientes.setBounds(72, 215, 200, 40);
 		contentPane.add(btnMenuClientes);
 		
 		JButton btnMenuVendas = new JButton("Vendas");
 		btnMenuVendas.setEnabled(false);
-		btnMenuVendas.setBounds(42, 169, 200, 40);
+		btnMenuVendas.setBounds(72, 300, 200, 40);
 		contentPane.add(btnMenuVendas);
 		
 		JButton btnDashboard = new JButton("Dashboard");
 		btnDashboard.setEnabled(false);
-		btnDashboard.setBounds(42, 239, 200, 40);
+		btnDashboard.setBounds(72, 385, 200, 40);
 		contentPane.add(btnDashboard);
+		
+		JButton btnEntradas = new JButton("Entradas");
+		btnEntradas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewEntradas vEntradas = new ViewEntradas();
+				vEntradas.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnEntradas.setBounds(72, 130, 200, 40);
+		contentPane.add(btnEntradas);
 	}
 }
