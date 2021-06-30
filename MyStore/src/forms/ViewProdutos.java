@@ -166,9 +166,9 @@ public class ViewProdutos extends JFrame {
 		JButton btnProdutoDeletar = new JButton("Deletar Produto");
 		btnProdutoDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int remove = tableProdutos.getSelectedRow();
+				int row = tableProdutos.getSelectedRow();
 				deletarDados.deletarProdutos(tableProdutos);
-				model.removeRow(remove);
+				model.removeRow(row);
 			}
 		});
 		btnProdutoDeletar.setBounds(741, 602, 175, 23);

@@ -46,16 +46,11 @@ public class InserirDados {
 			try {
 				
 				// FECHAR AS CONEXÕES
-				
-				if (stmt != null) {
 					stmt.close();
-				}
-				if (conexao != null) {
 					conexao.close();
-				}
 				
 			} catch (Exception e2) {
-				// TODO: handle exception
+				System.out.println(e2);
 			}
 			
 		}
@@ -95,13 +90,8 @@ public class InserirDados {
 			// FECHAR AS CONEXÕES
 
 			try {
-				
-				if (stmt != null) {
 					stmt.close();
-				}
-				if (conexao != null) {
 					conexao.close();
-				}
 
 			} catch (Exception e2) {
 				JOptionPane.showConfirmDialog(null, "Erro de inserção");

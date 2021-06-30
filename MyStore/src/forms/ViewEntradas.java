@@ -133,10 +133,31 @@ public class ViewEntradas extends JFrame {
 		contentPane.add(btnEntradaCadastrar);
 		
 		JButton btnEntradaEditar = new JButton("Editar Entrada");
+		btnEntradaEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nomeProduto = String.valueOf(cBProduto.getSelectedItem());
+				String dataEntrada = sdf.format(dChDataEntrada.getDate());
+				String dataValidade = sdf.format(dChDataValidade.getDate());
+				String idEntrada =  tableEntradas.getModel().getValueAt(tableEntradas.getSelectedRow(), 0).toString();
+//				System.out.println(nomeProduto +"\n" + dataEntrada+"\n" + dataValidade+"\n" + idEntrada + "\n" 
+//				+ Double.parseDouble(txtPrecoCusto.getText()) + "\n" + Integer.parseInt(txtQuantidadeProduto.getText()));
+				editarDados.editarEntradas(nomeProduto, Double.parseDouble(txtPrecoCusto.getText()),
+						Integer.parseInt(txtQuantidadeProduto.getText()),
+						dataEntrada, dataValidade, Integer.parseInt(idEntrada));
+				buscarDados.BuscarEntradas(tableEntradas);
+			}
+		});
 		btnEntradaEditar.setBounds(741, 471, 175, 45);
 		contentPane.add(btnEntradaEditar);
 		
 		JButton btnEntradaDeletar = new JButton("Deletar Entrada");
+		btnEntradaDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deletarDados.deletarEntradas(tableEntradas);
+				int row = tableEntradas.getSelectedRow();
+				model.removeRow(row);
+			}
+		});
 		btnEntradaDeletar.setBounds(741, 602, 175, 23);
 		contentPane.add(btnEntradaDeletar);
 		

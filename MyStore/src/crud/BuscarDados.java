@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,25 +47,19 @@ public class BuscarDados {
 				txtArea = rSet.getString("prd_descricao_prod");
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null,"Erro: " + e,"Erro de conexão", JOptionPane.ERROR_MESSAGE);
 		} finally {
 
 			// FECHAR AS CONEXÕES
 
 			try {
-
-				if (rSet != null) {
 					rSet.close();
-				}
-				if (stmt != null) {
 					stmt.close();
-				}
-				if (conexao != null) {
 					conexao.close();
-				}
+				
 
 			} catch (Exception e2) {
-				System.out.println(e2);
+				JOptionPane.showMessageDialog(null,"Erro: " + e2,"Erro de conexão", JOptionPane.ERROR_MESSAGE);;
 			}
 		}
 		return txtArea;
@@ -104,15 +99,9 @@ public class BuscarDados {
 
 				// FECHAR AS CONEXÕES
 
-				if (rSet != null) {
-					rSet.close();
-				}
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (conexao != null) {
-					conexao.close();
-				}
+				rSet.close();
+				stmt.close();
+				conexao.close();
 
 			} catch (Exception e2) {
 				System.out.println(e2);
@@ -161,15 +150,9 @@ public class BuscarDados {
 
 			try {
 
-				if (rSet != null) {
-					rSet.close();
-				}
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (conexao != null) {
-					conexao.close();
-				}
+				rSet.close();
+				stmt.close();
+				conexao.close();
 
 			} catch (Exception e2) {
 				System.out.println(e2);
@@ -225,15 +208,9 @@ public class BuscarDados {
 
 			try {
 
-				if (rSet != null) {
-					rSet.close();
-				}
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (conexao != null) {
-					conexao.close();
-				}
+				rSet.close();
+				stmt.close();
+				conexao.close();
 
 			} catch (Exception e2) {
 				System.out.println(e2);
