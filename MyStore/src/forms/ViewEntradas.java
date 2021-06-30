@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,6 +33,7 @@ public class ViewEntradas extends JFrame {
 	private JTable tableEntradas;
 	private JTextField txtPrecoCusto;
 	private JTextField txtQuantidadeProduto;
+	
 
 	//GLOBAIS
 	ViewPrincipal vPrin = new ViewPrincipal();
@@ -83,7 +85,9 @@ public class ViewEntradas extends JFrame {
 		
 		tableEntradas = new JTable();
 		scrollPane.setViewportView(tableEntradas);
+		tableEntradas.setDefaultEditor(Object.class, null);
 		tableEntradas.setModel(model);
+		buscarDados.BuscarEntradas(tableEntradas);
 		
 		JDateChooser dChDataEntrada = new JDateChooser();
 		
@@ -115,6 +119,14 @@ public class ViewEntradas extends JFrame {
 				row[5] = dataValidade;
 				
 				model.addRow(row);
+				
+				cBProduto.setSelectedItem(null);
+				txtPrecoCusto.setText("");
+				txtQuantidadeProduto.setText("");
+				dChDataEntrada.setDate(null);
+				dChDataValidade.setDate(null);
+				JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso.");
+				buscarDados.BuscarEntradas(tableEntradas);
 			}
 		});
 		btnEntradaCadastrar.setBounds(741, 417, 175, 45);

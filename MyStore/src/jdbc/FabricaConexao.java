@@ -10,10 +10,10 @@ public class FabricaConexao {
 	private static final String URL = "jdbc:mysql://localhost:3306/db_mystore";
 
 	// NOME DO USUARIO MYSQL
-	private static final String USERNAME = "admin";
+	private static final String USERNAME = "root";
 
 	// SENHA DO BANCO
-	private static final String PASSWORD = "admin";
+	private static final String PASSWORD = "";
 
 	/*
 	 * CONEXÃO COM O BANCO DE DADOS
