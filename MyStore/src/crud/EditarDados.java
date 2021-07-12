@@ -3,11 +3,14 @@ package crud;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import javax.swing.JTable;
+
 import jdbc.FabricaConexao;
 
 public class EditarDados {
-
-	public void editarEntradas(String _produto, double _valorCusto, int _qtd, String _dataEntrada, String _dataValidade, int _idEntrada) {
+	BuscarDados bd = new BuscarDados();
+	
+	public void editarEntradas(String _produto, double _valorCusto, int _qtd, String _dataEntrada, String _dataValidade, int _idEntrada, JTable _table) {
 		String sql = "UPDATE tb_entrada SET fk_prd_produto = (SELECT id FROM tb_produtos WHERE prd_nome = ?),"
 				+ " ent_valor_custo_prod = ?,"
 				+ "ent_qntd_produto = ?, ent_data_cadastro = ?, ent_data_validade_prod = ?"
@@ -29,13 +32,13 @@ public class EditarDados {
 			stmt.setInt(6, _idEntrada);
 			
 			stmt.execute();
-			
+			bd.BuscarEntradas(_table);
 			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	public void editarProdutos(int _idProduto, String _nomeProduto, String _descricaoProduto, String _tipoProduto, double _valorVenda) {
+	public void editarProdutos(int _idProduto, String _nomeProduto, String _descricaoProduto, String _tipoProduto, double _valorVenda, JTable _table) {
 
 		String sql = "UPDATE tb_produtos SET prd_nome = ?, prd_descricao_prod = ?, prd_tipo_produto = ?, prd_valor_produto = ? WHERE id = ?";
 
@@ -60,6 +63,7 @@ public class EditarDados {
 
 			// EXECUTAR A QUERY
 			stmt.execute();
+			bd.BuscarProdutos(_table);
 
 		} catch (Exception e) {
 			System.out.println(e);

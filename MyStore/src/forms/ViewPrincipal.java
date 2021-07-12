@@ -40,6 +40,7 @@ public class ViewPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewPrincipal() {
+		setResizable(false);
 		setTitle("MyStore");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 360, 510);
