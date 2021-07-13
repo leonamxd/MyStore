@@ -21,115 +21,126 @@ public class ValidarCampos {
 	DeletarDados dd = new DeletarDados();
 	EditarDados ed = new EditarDados();
 	InserirDados id = new InserirDados();
-	
-	public boolean validarPreenchimentoCamposProduto(JTextField _text1, JTextField _text2,
-			JTextArea _textArea, JTextField _text4) {
-		
-		if(_text1.getText().isBlank() || _text2.getText().isBlank() || _textArea.getText().isBlank() 
+
+	public void validarTipoNumerico(String _text1, JTextField _text2) {
+
+		int stringLength = _text1.length();
+
+		if (_text1.substring(0, stringLength).matches("^\\d+(\\.|,|\\d+)*$")) {
+			
+		} else {
+			
+			_text2.setText("");
+			mErro.erroTipoCampo();
+		}
+
+	}
+
+	public boolean validarPreenchimentoCamposProduto(JTextField _text1, JTextField _text2, JTextArea _textArea,
+			JTextField _text4) {
+
+		if (_text1.getText().isBlank() || _text2.getText().isBlank() || _textArea.getText().isBlank()
 				|| _text4.getText().isBlank()) {
 			mErro.erroPreenchimentoCampos();
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	public boolean validarPreenchimentoCamposEntrada(JComboBox _combo, JTextField _text1, JTextField _text2, JDateChooser _date1, JDateChooser _date2) {
-		
-		System.out.println(_date1);
-		System.out.println(_date2);
-		
-		if(_combo.getSelectedItem() == null || _text1.getText().isBlank() || _text2.getText().isBlank()
-				|| _date1.getCalendar() == null || _date2.getCalendar() == null) {
-			
+
+	public boolean validarPreenchimentoCamposEntrada(JComboBox _combo, JTextField _text1, JTextField _text2, JDateChooser _date2) {
+
+		if (_combo.getSelectedItem() == null || _text1.getText().isBlank() || _text2.getText().isBlank()
+				|| _date2.getCalendar() == null) {
+
 			mErro.erroPreenchimentoCampos();
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	public void validarInsercaoEntrada(String _produto, double _valorCusto, int _qtd, String _dataEntrada,
 			String _dataValidade, Object[] _object, JComboBox _combo, JTextField _text1, JTextField _text2,
 			String _data1, String _data2, DefaultTableModel _model) {
-		
+
 		try {
-			id.inserirEntrada(_produto, _valorCusto, _qtd, _dataEntrada, _dataValidade, _object, _combo,
-					_text1, _text2, _data1, _data2, _model);
+			id.inserirEntrada(_produto, _valorCusto, _qtd, _dataEntrada, _dataValidade, _object, _combo, _text1, _text2,
+					_data1, _data2, _model);
 			mSucesso.cadastrarSucesso();
 		} catch (Exception e) {
 			mErro.erroInsercaoBanco();
 		}
 	}
-	
+
 	public void validarInsercaoProduto(String _nomeProduto, String _tipoProduto, String _descricaoProduto,
 			double _valorVenda, Object[] _object, JTextField _text1, JTextField _text2, JTextField _text3,
 			DefaultTableModel _model) {
 		try {
-			id.inserirProdutos(_nomeProduto,  _tipoProduto, _descricaoProduto, _valorVenda, _object, 
-					_text1, _text2, _text3, _model);
+			id.inserirProdutos(_nomeProduto, _tipoProduto, _descricaoProduto, _valorVenda, _object, _text1, _text2,
+					_text3, _model);
 			mSucesso.cadastrarSucesso();
 		} catch (Exception e) {
 			mErro.erroInsercaoBanco();
 		}
 	}
-	
-	
-	public void validarEdicaoEntrada(String _produto, double _valorCusto, int _qtd, String _dataEntrada, 
+
+	public void validarEdicaoEntrada(String _produto, double _valorCusto, int _qtd, String _dataEntrada,
 			String _dataValidade, int _idEntrada, JTable _table) {
-		
-		if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir com a edição?", "", JOptionPane.YES_NO_OPTION) 
-				== JOptionPane.YES_OPTION) {
+
+		if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir com a edição?", "",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			try {
 				ed.editarEntradas(_produto, _valorCusto, _qtd, _dataEntrada, _dataValidade, _idEntrada, _table);
 				mSucesso.editarSucesso();
 			} catch (Exception e) {
 				mErro.erroAtualizarBanco();
 			}
-			
+
 		}
 	}
-	
-	public void validarEdicaoProduto(int _idProduto, String _nomeProduto, String _descricaoProduto, 
-			String _tipoProduto, double _valorVenda, JTable _table) {
-		
-		if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir com a edição?", "", JOptionPane.YES_NO_OPTION) 
-				== JOptionPane.YES_OPTION) {
+
+	public void validarEdicaoProduto(int _idProduto, String _nomeProduto, String _descricaoProduto, String _tipoProduto,
+			double _valorVenda, JTable _table) {
+
+		if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir com a edição?", "",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			try {
-				ed.editarProdutos( _idProduto, _nomeProduto, _descricaoProduto,  _tipoProduto,  _valorVenda, _table);
+				ed.editarProdutos(_idProduto, _nomeProduto, _descricaoProduto, _tipoProduto, _valorVenda, _table);
 				mSucesso.editarSucesso();
 			} catch (Exception e) {
 				mErro.erroAtualizarBanco();
 			}
 		}
 	}
-	
+
 	public void validarExclusaoProduto(JTable _table, DefaultTableModel _model) {
-		
-		if(JOptionPane.showConfirmDialog(null, "Deseja prosseguir a exclusão?", "",  JOptionPane.YES_NO_OPTION)
-				== JOptionPane.YES_OPTION) {
+
+		if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir a exclusão?", "",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			try {
 				dd.deletarProdutos(_table, _model);
 				mSucesso.deletarSucesso();
 			} catch (Exception e) {
 				mErro.erroDeletarBanco();
 			}
-		}else {
-			
-		}	
+		} else {
+
+		}
 	}
-	
+
 	public void validarExclusaoEntrada(JTable _table, DefaultTableModel _model) {
-		
-		if(JOptionPane.showConfirmDialog(null, "Deseja prosseguir a exclusão?", "",  JOptionPane.YES_NO_OPTION)
-				== JOptionPane.YES_OPTION) {
+
+		if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir a exclusão?", "",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			try {
 				dd.deletarEntradas(_table, _model);
 				mSucesso.deletarSucesso();
 			} catch (Exception e) {
 				mErro.erroDeletarBanco();
 			}
-		}else {
-			
-		}	
+		} else {
+
+		}
 	}
 }

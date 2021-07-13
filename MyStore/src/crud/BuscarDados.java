@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import jdbc.FabricaConexao;
 
 public class BuscarDados {
-	
+
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	// METODO PARA PEGAR STRING DA DESCRIÇÃO E MOSTRAR NA TABLE
@@ -47,19 +47,19 @@ public class BuscarDados {
 				txtArea = rSet.getString("prd_descricao_prod");
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,"Erro: " + e,"Erro de conexão", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Erro: " + e, "Erro de conexão", JOptionPane.ERROR_MESSAGE);
 		} finally {
 
 			// FECHAR AS CONEXÕES
 
 			try {
-					rSet.close();
-					stmt.close();
-					conexao.close();
-				
+				rSet.close();
+				stmt.close();
+				conexao.close();
 
 			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null,"Erro: " + e2,"Erro de conexão", JOptionPane.ERROR_MESSAGE);;
+				JOptionPane.showMessageDialog(null, "Erro: " + e2, "Erro de conexão", JOptionPane.ERROR_MESSAGE);
+				;
 			}
 		}
 		return txtArea;
@@ -114,9 +114,7 @@ public class BuscarDados {
 	public void BuscarEntradas(JTable _table) {
 
 		String sql = "SELECT tb_entrada.id, ent_data_cadastro, ent_data_validade_prod, ent_qntd_produto, ent_valor_custo_prod, prd_nome"
-				+ " FROM tb_entrada"
-				+ " INNER JOIN tb_produtos"
-				+ " ON tb_entrada.fk_prd_produto = tb_produtos.id";
+				+ " FROM tb_entrada" + " INNER JOIN tb_produtos" + " ON tb_entrada.fk_prd_produto = tb_produtos.id";
 
 		Connection conexao = null;
 		Statement stmt = null;

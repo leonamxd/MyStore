@@ -32,6 +32,8 @@ import validacao.ValidarCampos;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ViewEntradas extends JFrame {
 
@@ -131,13 +133,24 @@ public class ViewEntradas extends JFrame {
 		btnEntradaCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String valorComboBox = String.valueOf(cBProduto.getSelectedItem());
-
-				String dataEntrada = sdf.format(dChDataEntrada.getDate());
-				String dataValidade = sdf.format(dChDataValidade.getDate());
-
-				if (validarCampos.validarPreenchimentoCamposEntrada(cBProduto, txtPrecoCusto, txtQuantidadeProduto,
-						dChDataValidade, dChDataEntrada)) {
+				
+				String dataEntrada;
+				String dataValidade;
+				
+				dataEntrada = sdf.format(dChDataEntrada.getDate());
+				
+				try {
 					
+					dataValidade = sdf.format(dChDataValidade.getDate());
+					
+				}catch(Exception e2){
+					dataValidade = "";
+					System.out.println(e2);
+				}
+				
+
+				if (validarCampos.validarPreenchimentoCamposEntrada(cBProduto, txtPrecoCusto, txtQuantidadeProduto, dChDataEntrada)) {
+
 					validarCampos.validarInsercaoEntrada(valorComboBox, Double.parseDouble(txtPrecoCusto.getText()),
 							Integer.parseInt(txtQuantidadeProduto.getText()), dataEntrada, dataValidade, row, cBProduto,
 							txtPrecoCusto, txtQuantidadeProduto, dataEntrada, dataValidade, model);
@@ -161,7 +174,7 @@ public class ViewEntradas extends JFrame {
 				String dataEntrada = sdf.format(dChDataEntrada.getDate());
 				String dataValidade = sdf.format(dChDataValidade.getDate());
 				String idEntrada = tableEntradas.getModel().getValueAt(tableEntradas.getSelectedRow(), 0).toString();
-//				
+				
 				editarDados.editarEntradas(nomeProduto, Double.parseDouble(txtPrecoCusto.getText()),
 						Integer.parseInt(txtQuantidadeProduto.getText()), dataEntrada, dataValidade,
 						Integer.parseInt(idEntrada), tableEntradas);
@@ -216,11 +229,27 @@ public class ViewEntradas extends JFrame {
 		contentPane.add(lblDataValidade);
 
 		txtPrecoCusto = new JTextField();
+		txtPrecoCusto.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				String precoCusto = txtPrecoCusto.getText();
+				validarCampos.validarTipoNumerico(precoCusto, txtPrecoCusto);
+			}
+		});
 		txtPrecoCusto.setBounds(221, 466, 131, 20);
 		contentPane.add(txtPrecoCusto);
 		txtPrecoCusto.setColumns(10);
 
 		txtQuantidadeProduto = new JTextField();
+		txtQuantidadeProduto.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				String quantidade = txtQuantidadeProduto.getText();
+				validarCampos.validarTipoNumerico(quantidade, txtQuantidadeProduto);
+			}
+		});
 		txtQuantidadeProduto.setBounds(221, 517, 131, 20);
 		contentPane.add(txtQuantidadeProduto);
 		txtQuantidadeProduto.setColumns(10);

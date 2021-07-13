@@ -20,7 +20,7 @@ public class DeletarDados {
 			int idCelula = Integer.parseInt(_table.getModel().getValueAt(row, 0).toString());
 			String sql = "DELETE FROM tb_entrada WHERE id = " + idCelula;
 			_model.removeRow(row);
-			
+
 			conexao = FabricaConexao.abrirConexao();
 			stmt = conexao.prepareStatement(sql);
 			stmt.execute();
@@ -58,8 +58,6 @@ public class DeletarDados {
 
 			// EXECUTAR A QUERY
 			stmt.execute();
-			
-			
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e, "Erro de conexão", JOptionPane.ERROR_MESSAGE);
