@@ -3,6 +3,10 @@ package mensagens;
 import javax.swing.JOptionPane;
 
 public class MensagensErro {
+	
+	public void teste() {
+		System.out.println("TESTE!!!");
+	}
 
 	public void erroCadastroDuplicado() {
 		JOptionPane.showMessageDialog(null, "Cadastro duplicado.", "Erro: CG_001", JOptionPane.ERROR_MESSAGE);
