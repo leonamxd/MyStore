@@ -24,6 +24,8 @@ import crud.DeletarDados;
 import crud.EditarDados;
 import crud.InserirDados;
 import validacao.ValidarCampos;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ViewProdutos extends JFrame {
 
@@ -128,6 +130,14 @@ public class ViewProdutos extends JFrame {
 		buscarDados.BuscarProdutos(tableProdutos);
 
 		txtValorVenda = new JTextField();
+		txtValorVenda.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				String valorVenda = txtValorVenda.getText();
+				validarCampos.validarTipoNumerico(valorVenda, txtValorVenda);
+			}
+		});
 		txtValorVenda.setBounds(188, 603, 150, 20);
 		contentPane.add(txtValorVenda);
 		txtValorVenda.setColumns(10);

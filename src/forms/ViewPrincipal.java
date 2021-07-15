@@ -14,15 +14,13 @@ import java.awt.event.ActionEvent;
 public class ViewPrincipal extends JFrame {
 
 	private JPanel contentPane;
-	
+
 	/**
 	 * Launch the application.
 	 */
-	
-	//GLOBAIS
-	
-	
-	
+
+	// GLOBAIS
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -59,22 +57,22 @@ public class ViewPrincipal extends JFrame {
 		});
 		btnProdutos.setBounds(72, 45, 200, 40);
 		contentPane.add(btnProdutos);
-		
+
 		JButton btnMenuClientes = new JButton("Clientes");
 		btnMenuClientes.setEnabled(false);
 		btnMenuClientes.setBounds(72, 215, 200, 40);
 		contentPane.add(btnMenuClientes);
-		
+
 		JButton btnMenuVendas = new JButton("Vendas");
 		btnMenuVendas.setEnabled(false);
 		btnMenuVendas.setBounds(72, 300, 200, 40);
 		contentPane.add(btnMenuVendas);
-		
+
 		JButton btnDashboard = new JButton("Dashboard");
 		btnDashboard.setEnabled(false);
 		btnDashboard.setBounds(72, 385, 200, 40);
 		contentPane.add(btnDashboard);
-		
+
 		JButton btnEntradas = new JButton("Entradas");
 		btnEntradas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
