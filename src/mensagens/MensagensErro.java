@@ -3,6 +3,10 @@ package mensagens;
 import javax.swing.JOptionPane;
 
 public class MensagensErro {
+	
+	public void erroDeletarProdutoComEntradas() {
+		JOptionPane.showMessageDialog(null, "O produto existente possui entradas cadastradas. Remova as entradas para deletar o produto desejado.", "Erro: CB_004", JOptionPane.ERROR_MESSAGE);
+	}
 
 	public void erroCadastroDuplicado() {
 		JOptionPane.showMessageDialog(null, "Cadastro duplicado.", "Erro: CG_001", JOptionPane.ERROR_MESSAGE);

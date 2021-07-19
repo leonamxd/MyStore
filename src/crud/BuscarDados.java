@@ -17,6 +17,35 @@ public class BuscarDados {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	// METODO PARA PEGAR STRING DA DESCRIÇÃO E MOSTRAR NA TABLE
+	
+	public String buscarQuantidade(String _idProduto) {
+
+		String sql = "select SUM(ent_qntd_produto) from tb_entrada WHERE fk_prd_produto = " + Integer.parseInt(_idProduto);
+		String quantidade = "";
+		
+		
+		Connection conexao = null;
+		Statement stmt = null;
+		ResultSet rSet = null;
+
+
+		try {
+
+			conexao = FabricaConexao.abrirConexao();
+			stmt = conexao.createStatement();
+			rSet = stmt.executeQuery(sql);
+
+			while (rSet.next()) {
+				quantidade = String.valueOf(rSet.getInt(1));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return quantidade;
+	}
+	
 	public String BuscarTextArea(JTable _table) {
 
 		// VARIAVEL QUE RECEBERÁ A STRING
@@ -193,7 +222,10 @@ public class BuscarDados {
 				String tipo = rSet.getString("prd_tipo_produto");
 				// RECUPERA O VALOR DO PRODUTOR
 				String valor = String.valueOf(rSet.getDouble("prd_valor_produto"));
-				String tableData[] = { id, nome, tipo, valor };
+				
+				String quantidade = buscarQuantidade(id);
+				
+				String tableData[] = { id, nome, tipo, valor, quantidade };
 
 				modelo.addRow(tableData);
 			}

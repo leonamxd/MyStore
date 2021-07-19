@@ -6,10 +6,14 @@ import java.sql.PreparedStatement;
 import javax.swing.JTable;
 
 import jdbc.FabricaConexao;
+import mensagens.MensagensErro;
+import mensagens.MensagensSucesso;
 
 public class EditarDados {
 	BuscarDados bd = new BuscarDados();
-
+	MensagensErro mErro = new MensagensErro();
+	MensagensSucesso mSucesso = new MensagensSucesso();
+	
 	public void editarEntradas(String _produto, double _valorCusto, int _qtd, String _dataEntrada, String _dataValidade,
 			int _idEntrada, JTable _table) {
 		String sql = "UPDATE tb_entrada SET fk_prd_produto = (SELECT id FROM tb_produtos WHERE prd_nome = ?),"
@@ -33,8 +37,9 @@ public class EditarDados {
 
 			stmt.execute();
 			bd.BuscarEntradas(_table);
-
+			mSucesso.editarSucesso();
 		} catch (Exception e) {
+			mErro.erroAtualizarBanco();
 			System.out.println(e);
 		}
 	}
@@ -66,8 +71,9 @@ public class EditarDados {
 			// EXECUTAR A QUERY
 			stmt.execute();
 			bd.BuscarProdutos(_table);
-
+			mSucesso.editarSucesso();
 		} catch (Exception e) {
+			mErro.erroAtualizarBanco();
 			System.out.println(e);
 		} finally {
 

@@ -9,9 +9,14 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import jdbc.FabricaConexao;
+import mensagens.MensagensErro;
+import mensagens.MensagensSucesso;
 
 public class InserirDados {
-
+	
+	MensagensErro mErro = new MensagensErro();
+	MensagensSucesso mSucesso = new MensagensSucesso();
+	
 	public void preencherTabelaEntrada(Object[] _object, JComboBox _combo, JTextField _text1, JTextField _text2,
 			String _data1, String _data2, DefaultTableModel _model) {
 		_object[1] = _combo.getSelectedItem();
@@ -23,18 +28,17 @@ public class InserirDados {
 		_model.addRow(_object);
 	}
 
-	public void preencherTabelaProduto(Object[] _object, JTextField _text1, JTextField _text2, JTextField _text3,
+	public void preencherTabelaProduto(Object[] _object, JTextField _nomeProduto, JComboBox _tipoProduto, JTextField _valorVenda,
 			DefaultTableModel _model) {
-		_object[1] = _text1.getText();
-		_object[2] = _text2.getText();
-		_object[3] = _text3.getText();
+		_object[1] = _nomeProduto.getText();
+		_object[2] = _tipoProduto.getSelectedItem().toString();
+		_object[3] = _valorVenda.getText();
 		_model.addRow(_object);
 	}
 
 	// METODO PARA INSERIR NOVAS ENTRADAS
-	public void inserirEntrada(String _produto, double _valorCusto, int _qtd, String _dataEntrada, String _dataValidade,
-			Object[] _object, JComboBox _combo, JTextField _text1, JTextField _text2, String _data1, String _data2,
-			DefaultTableModel _model) {
+	public void inserirEntrada(String _valorComboBox, double _valorCusto, int _qtd, String _dataEntrada, String _dataValidade,
+			Object[] _object, JComboBox _combo, JTextField _text1, JTextField _text2, DefaultTableModel _model) {
 		// ent_data_cadastro se refere a data que a Entrada foi realizada
 
 		// QUERY DO SQL
@@ -54,7 +58,7 @@ public class InserirDados {
 			stmt = conexao.prepareStatement(sql);
 
 			// VALORES ESPERADOS PELA QUERY
-			stmt.setString(1, _produto);
+			stmt.setString(1, _valorComboBox);
 			stmt.setDouble(2, _valorCusto);
 			stmt.setInt(3, _qtd);
 			stmt.setString(4, _dataEntrada);
@@ -66,10 +70,11 @@ public class InserirDados {
 
 			// EXECUTAR A QUERY
 			stmt.execute();
-
-			preencherTabelaEntrada(_object, _combo, _text1, _text2, _data1, _data2, _model);
-
+			
+			preencherTabelaEntrada(_object, _combo, _text1, _text2, _dataEntrada, _dataValidade, _model);
+			mSucesso.cadastrarSucesso();
 		} catch (Exception e) {
+			mErro.erroInsercaoBanco();
 			System.out.println(e);
 		} finally {
 
@@ -88,7 +93,7 @@ public class InserirDados {
 	}
 
 	public void inserirProdutos(String _nomeProduto, String _tipoProduto, String _descricaoProduto, double _valorVenda,
-			Object[] _object, JTextField _text1, JTextField _text2, JTextField _text3, DefaultTableModel _model) {
+			Object[] _object, JTextField _TxtFieldnomeProduto, JComboBox _comboTipoProduto, JTextField _txtFieldValorVenda, DefaultTableModel _model) {
 
 		// QUERY DO SQL
 		String sql = "INSERT INTO tb_produtos (prd_nome, prd_tipo_produto, prd_descricao_prod, prd_valor_produto) VALUES (?,?,?,?)";
@@ -113,10 +118,11 @@ public class InserirDados {
 			// EXECUTAR A QUERY
 			stmt.execute();
 
-			preencherTabelaProduto(_object, _text1, _text2, _text3, _model);
-
+			preencherTabelaProduto(_object, _TxtFieldnomeProduto, _comboTipoProduto, _txtFieldValorVenda, _model);
+			mSucesso.cadastrarSucesso();
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, "Erro de inserção");
+			mErro.erroInsercaoBanco();
 		} finally {
 
 			// FECHAR AS CONEXÕES

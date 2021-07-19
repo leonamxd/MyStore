@@ -28,6 +28,8 @@ import crud.BuscarDados;
 import crud.DeletarDados;
 import crud.EditarDados;
 import crud.InserirDados;
+import mensagens.MensagensErro;
+import mensagens.MensagensSucesso;
 import validacao.ValidarCampos;
 
 import java.awt.event.MouseAdapter;
@@ -53,6 +55,8 @@ public class ViewEntradas extends JFrame {
 	DeletarDados deletarDados = new DeletarDados();
 	EditarDados editarDados = new EditarDados();
 	ValidarCampos validarCampos = new ValidarCampos();
+	MensagensErro mErro = new MensagensErro();
+	MensagensSucesso mSucesso = new MensagensSucesso();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
@@ -136,7 +140,6 @@ public class ViewEntradas extends JFrame {
 				
 				String dataEntrada;
 				String dataValidade;
-				
 				dataEntrada = sdf.format(dChDataEntrada.getDate());
 				
 				try {
@@ -148,12 +151,10 @@ public class ViewEntradas extends JFrame {
 					System.out.println(e2);
 				}
 				
-
 				if (validarCampos.validarPreenchimentoCamposEntrada(cBProduto, txtPrecoCusto, txtQuantidadeProduto, dChDataEntrada)) {
 
-					validarCampos.validarInsercaoEntrada(valorComboBox, Double.parseDouble(txtPrecoCusto.getText()),
-							Integer.parseInt(txtQuantidadeProduto.getText()), dataEntrada, dataValidade, row, cBProduto,
-							txtPrecoCusto, txtQuantidadeProduto, dataEntrada, dataValidade, model);
+					inserirDados.inserirEntrada(valorComboBox, Double.parseDouble(txtPrecoCusto.getText()), Integer.parseInt(txtQuantidadeProduto.getText()),
+							dataEntrada, dataValidade, row, cBProduto, txtPrecoCusto, txtQuantidadeProduto, model);
 				}
 
 				cBProduto.setSelectedItem(null);
@@ -187,7 +188,17 @@ public class ViewEntradas extends JFrame {
 		JButton btnEntradaDeletar = new JButton("Deletar Entrada");
 		btnEntradaDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				validarCampos.validarExclusaoEntrada(tableEntradas, model);
+				if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir a exclusão?", "",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					try {
+						deletarDados.deletarEntradas(tableEntradas, model);
+						mSucesso.deletarSucesso();
+					} catch (Exception e2) {
+						mErro.erroDeletarBanco();
+					}
+				} else {
+
+				}
 			}
 		});
 		btnEntradaDeletar.setBounds(741, 602, 175, 23);

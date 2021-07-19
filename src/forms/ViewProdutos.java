@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,20 +24,23 @@ import crud.BuscarDados;
 import crud.DeletarDados;
 import crud.EditarDados;
 import crud.InserirDados;
+import mensagens.MensagensErro;
+import mensagens.MensagensSucesso;
 import validacao.ValidarCampos;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JComboBox;
 
 public class ViewProdutos extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tableProdutos;
 	private JTextField txtNomeProduto;
-	private JTextField txtTipoProduto;
 	private JTextField txtValorVenda;
 
 	/**
 	 * Launch the application.
+	 * hello darkness my old friend
 	 */
 
 	// GLOBAIS
@@ -47,6 +51,8 @@ public class ViewProdutos extends JFrame {
 	DeletarDados deletarDados = new DeletarDados();
 	EditarDados editarDados = new EditarDados();
 	ValidarCampos validarCampos = new ValidarCampos();
+	MensagensErro mErro = new MensagensErro();
+	MensagensSucesso mSucesso = new MensagensSucesso();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -72,6 +78,13 @@ public class ViewProdutos extends JFrame {
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+		JComboBox cBTipoProduto = new JComboBox();
+		cBTipoProduto.setBounds(188, 450, 440, 20);
+		cBTipoProduto.setModel(new DefaultComboBoxModel(new String[] {"Boticário","Eudora","Handara", "Hinode",
+				"Jalde Semi Jóias", "Kit Toalhas", "Mahogany", "Mary Kay", "Máscaras", "Natura","Rommanel", "Roupa Íntima",
+				"Tupperware", "Outros"}));
+		contentPane.add(cBTipoProduto);
 
 		Object[] column = { "ID", "Nome", "Tipo", "Valor", "Qtd." };
 		Object[] row = new Object[5];
@@ -100,11 +113,6 @@ public class ViewProdutos extends JFrame {
 		lblProdutoTipo.setBounds(91, 448, 83, 14);
 		contentPane.add(lblProdutoTipo);
 
-		txtTipoProduto = new JTextField();
-		txtTipoProduto.setBounds(188, 451, 440, 20);
-		contentPane.add(txtTipoProduto);
-		txtTipoProduto.setColumns(10);
-
 		JLabel lblProdutoNome = new JLabel("Nome do Produto:");
 		lblProdutoNome.setBounds(91, 423, 87, 14);
 		contentPane.add(lblProdutoNome);
@@ -119,7 +127,7 @@ public class ViewProdutos extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int row = tableProdutos.getSelectedRow();
 				txtNomeProduto.setText(tableProdutos.getModel().getValueAt(row, 1).toString());
-				txtTipoProduto.setText(tableProdutos.getModel().getValueAt(row, 2).toString());
+				cBTipoProduto.setSelectedItem(tableProdutos.getModel().getValueAt(row, 2));
 				txtAreaDescricao.setText(buscarDados.BuscarTextArea(tableProdutos));
 				txtValorVenda.setText(tableProdutos.getModel().getValueAt(row, 3).toString());
 			}
@@ -132,7 +140,7 @@ public class ViewProdutos extends JFrame {
 		txtValorVenda = new JTextField();
 		txtValorVenda.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				
 				String valorVenda = txtValorVenda.getText();
 				validarCampos.validarTipoNumerico(valorVenda, txtValorVenda);
@@ -147,16 +155,18 @@ public class ViewProdutos extends JFrame {
 		btnProdutoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String valorVenda = txtValorVenda.getText().replace(",", ".");
-				if (validarCampos.validarPreenchimentoCamposProduto(txtNomeProduto, txtTipoProduto, txtAreaDescricao,
+				String tipoProduto = cBTipoProduto.getSelectedItem().toString();
+				
+				if (validarCampos.validarPreenchimentoCamposProduto(txtNomeProduto, cBTipoProduto, txtAreaDescricao,
 						txtValorVenda) == false) {
 
-					validarCampos.validarInsercaoProduto(txtNomeProduto.getText(), txtTipoProduto.getText(),
+					inserirDados.inserirProdutos(txtNomeProduto.getText(), tipoProduto,
 							txtAreaDescricao.getText(), Double.parseDouble(valorVenda), row, txtNomeProduto,
-							txtTipoProduto, txtValorVenda, model);
+							cBTipoProduto, txtValorVenda, model);
 				}
 
 				txtNomeProduto.setText("");
-				txtTipoProduto.setText("");
+				cBTipoProduto.setSelectedItem(null);;
 				txtAreaDescricao.setText("");
 				txtValorVenda.setText("");
 
@@ -172,8 +182,10 @@ public class ViewProdutos extends JFrame {
 
 				int row = tableProdutos.getSelectedRow();
 				int idCelula = Integer.parseInt(tableProdutos.getModel().getValueAt(row, 0).toString());
-				validarCampos.validarEdicaoProduto(idCelula, txtNomeProduto.getText(), txtAreaDescricao.getText(),
-						txtTipoProduto.getText(), Double.parseDouble(txtValorVenda.getText()), tableProdutos);
+				
+				editarDados.editarProdutos(idCelula, txtNomeProduto.getText(), txtAreaDescricao.getText(),
+						cBTipoProduto.getSelectedItem().toString(), Double.parseDouble(txtValorVenda.getText()), tableProdutos);
+				
 			}
 		});
 		btnProdutoEditar.setBounds(741, 471, 175, 45);
@@ -182,10 +194,17 @@ public class ViewProdutos extends JFrame {
 		JButton btnProdutoDeletar = new JButton("Deletar Produto");
 		btnProdutoDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				validarCampos.validarExclusaoProduto(tableProdutos, model);
-
+				if (JOptionPane.showConfirmDialog(null, "Deseja prosseguir a exclusão?", "",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					try {
+						deletarDados.deletarProdutos(tableProdutos, model);
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
+				} 
 			}
 		});
+		
 		btnProdutoDeletar.setBounds(741, 602, 175, 23);
 		contentPane.add(btnProdutoDeletar);
 
@@ -199,5 +218,7 @@ public class ViewProdutos extends JFrame {
 			}
 		});
 		contentPane.add(btnProdutoVoltar);
+		
+		
 	}
 }
