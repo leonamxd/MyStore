@@ -9,10 +9,12 @@ public class MensagensSucesso {
 	}
 
 	public void editarSucesso() {
-		JOptionPane.showMessageDialog(null, "AtualizaÁ„o realizada com sucesso.");
+		JOptionPane.showMessageDialog(null, "Atualiza√ß√£o realizada com sucesso.");
 	}
 
 	public void deletarSucesso() {
-		JOptionPane.showMessageDialog(null, "Exclus„o realizada com sucesso.");
+		JOptionPane.showMessageDialog(null, "Exclus√£o realizada com sucesso.");
 	}
 }
+
+/*Teste*/
